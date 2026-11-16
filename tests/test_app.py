@@ -1,6 +1,7 @@
-import src.app as app_module
 import pytest
 from fastapi.testclient import TestClient
+
+import src.app as app_module
 
 
 @pytest.fixture
@@ -131,12 +132,11 @@ def test_unregister_rejects_unknown_activity_or_participant(
     api_client, activity, email, expected_detail
 ):
     # Arrange
+    url = f"/activities/{activity}/participants"
+    params = {"email": email}
 
     # Act
-    response = api_client.delete(
-        f"/activities/{activity}/participants",
-        params={"email": email},
-    )
+    response = api_client.delete(url, params=params)
 
     # Assert
     assert response.status_code == 404
